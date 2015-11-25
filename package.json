@@ -1,13 +1,11 @@
 {
   "name": "frh-react-dial-pad",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/dial.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "babelify": "babel modules/Dial.jsx --out-file dist/dial.js --source-maps"
   },
-  "author": "Johannes Hilden <johannes@isomorphic.co>",
-  "license": "BSD-3-Clause",
   "dependencies": {
     "react": "^0.14.3",
     "react-dom": "^0.14.3"
@@ -20,5 +18,16 @@
     "browserify": "^12.0.1",
     "gulp": "^3.9.0",
     "vinyl-source-stream": "^1.1.0"
-  }
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "Farm Radio International",
+    "phone",
+    "phone dial",
+    "dial",
+    "pad"
+  ],
+  "author": "Johannes Hilden <johannes@isomorphic.co>",
+  "license": "BSD-3-Clause"
 }
