@@ -16,6 +16,11 @@ Simple React phone dial pad component inspired by the [jQuery dialpad plugin dem
 Try the demo [here](http://farmradiohangar.github.io/react-dial-pad/public/).
 
 ## Installation
+
+```
+npm install --save frh-react-dial-pad
+```
+
 ## Usage
 
 ### Basic usage
