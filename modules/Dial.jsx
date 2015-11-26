@@ -180,19 +180,14 @@ export default class Dial extends React.Component {
   }
   handleResize(e) {
     const { compact } = this.state
-    switch (window.innerWidth < 400) {
-      case true:
-        if (!compact) {
-          this.setState({compact: true})
-        }
-        break
-      case false:
-        if (compact) {
-          this.setState({compact: false})
-        }
-        break
-      default:
-        break
+    if (window.innerWidth < 400) {
+      if (!compact) {
+        this.setState({compact: true})
+      }
+    } else {
+      if (compact) {
+        this.setState({compact: false})
+      }
     }
   }
   handleClick(button) {
