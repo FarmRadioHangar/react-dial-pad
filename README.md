@@ -2,7 +2,7 @@
 
 # FRH React Dial Pad
 
-Simple React phone dial pad component.
+Simple React phone dial pad component inspired by the [jQuery dialpad plugin demo](http://www.jqueryscript.net/demo/Creating-A-Responsive-Phone-Dial-Pad-with-jQuery-CSS3-dialpad/).
 
 ![screenshot](screenshot.gif)
 
