@@ -11,6 +11,10 @@ Simple React phone dial pad component.
 ## Usage
 ## Props
 ## Contribute
+
+* GitHub: https://github.com/FarmRadioHangar/react-dial-pad
+* Issue tracker: https://github.com/FarmRadioHangar/react-dial-pad/issues
+
 ## License
 
 BSD
