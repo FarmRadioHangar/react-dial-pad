@@ -1,7 +1,7 @@
 {
   "name": "frh-react-dial-pad",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Simple React phone dial pad component.",
   "main": "dist/dial.js",
   "scripts": {
     "babelify": "babel modules/Dial.jsx --out-file dist/dial.js --source-maps"
