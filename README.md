@@ -5,3 +5,12 @@
 Simple React phone dial pad component.
 
 ![screenshot](screenshot.gif)
+
+## Demo
+## Installation
+## Usage
+## Props
+## Contribute
+## License
+
+BSD
