@@ -29,7 +29,7 @@ class DialButton extends React.Component {
     window.removeEventListener('mouseup', this.handleMouseUp)
   }
   render() {
-    const { symbol, alias } = this.props
+    const { symbol, alias, icon, compact } = this.props
     const { active } = this.state
     return (
       <p ref='button' style={{
@@ -45,9 +45,12 @@ class DialButton extends React.Component {
         <strong style={{
           'marginRight'     : '8px'
         }}>
-          {symbol}
+          {icon}
+          {(!icon || !compact) && (
+            <span>&nbsp;{symbol}</span>
+          )}
         </strong>
-        {!!alias && (
+        {!!alias && !compact && (
           <sup style={{
             'textTransform' : 'uppercase',
             'color'         : '#c1c1c1',
@@ -64,7 +67,7 @@ export class DialPad extends React.Component {
     super(props)
   }
   render() {
-    const { onClick } = this.props
+    const { onClick, compact } = this.props
     const buttons = [
       {
         symbol : '1'
@@ -111,22 +114,16 @@ export class DialPad extends React.Component {
         symbol : '#'
       },
       {
-        symbol : (
-          <span>
-            <i className='fa fa-phone' /> Call
-          </span>
-        ),
+        icon   : (<i className='fa fa-phone' />),
+        symbol : 'Call',
         action : 'call'
       },
       {
         symbol : '+'
       },
       {
-        symbol : (
-          <span>
-            <i className='fa fa-remove' /> Hang Up
-          </span>
-        ),
+        icon   : (<i className='fa fa-remove' />),
+        symbol : 'Hang Up',
         action : 'hangup'
       }
     ]
@@ -156,7 +153,7 @@ export class DialPad extends React.Component {
                 'cursor'         : 'pointer',
                 'width'          : 'calc(100%/3)'
               }} key={i}>
-                <DialButton {...button} />
+                <DialButton {...button} compact={compact} />
               </li>
             ))}
           </ol>
@@ -175,9 +172,28 @@ export default class Dial extends React.Component {
     super(props)
     this.state = {
       value   : '',
-      capture : true
+      capture : true,
+      compact : window.innerWidth < 400 
     }
     this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleResize = this.handleResize.bind(this)
+  }
+  handleResize(e) {
+    const { compact } = this.state
+    switch (window.innerWidth < 400) {
+      case true:
+        if (!compact) {
+          this.setState({compact: true})
+        }
+        break
+      case false:
+        if (compact) {
+          this.setState({compact: false})
+        }
+        break
+      default:
+        break
+    }
   }
   handleClick(button) {
     const { value } = this.state
@@ -196,8 +212,7 @@ export default class Dial extends React.Component {
     if (!capture) {
       return
     }
-    switch (e.keyCode) {
-      case 35:
+    switch (e.charCode) {
       case 48:
       case 49:
       case 50:
@@ -219,9 +234,11 @@ export default class Dial extends React.Component {
   }
   componentDidMount() {
     window.addEventListener('keypress', this.handleKeyPress)
+    window.addEventListener('resize', this.handleResize)
   }
   componentWillUnmount() {
     window.removeEventListener('keypress', this.handleKeyPress)
+    window.removeEventListener('resize', this.handleResize)
   }
   beginCapture(e) {
     this.setState({
@@ -247,7 +264,7 @@ export default class Dial extends React.Component {
     }
   }
   render() {
-    const { value } = this.state
+    const { value, compact } = this.state
     return (
       <div>
         {!!value && (
@@ -273,7 +290,8 @@ export default class Dial extends React.Component {
           'float'       : 'left', 
           'display'     : 'block', 
           'width'       : '100%',
-          'fontSize'    : '40px',
+          'fontSize'    : compact ? '24px' : '40px',
+          'minHeight'   : '47px',
           'margin'      : '10px 0',
           'color'       : '#4d4d4d'
         }} 
@@ -282,7 +300,7 @@ export default class Dial extends React.Component {
           onBlur   = {this.beginCapture.bind(this)}
           type     = 'text'
           value    = {value} />
-        <DialPad onClick={this.handleClick.bind(this)} />
+        <DialPad onClick={this.handleClick.bind(this)} compact={compact} />
       </div>
     )
   }
