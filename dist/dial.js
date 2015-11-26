@@ -4,6 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -68,6 +70,8 @@ var DialButton = (function (_React$Component) {
       var _props = this.props;
       var symbol = _props.symbol;
       var alias = _props.alias;
+      var icon = _props.icon;
+      var compact = _props.compact;
       var active = this.state.active;
 
       return _react2['default'].createElement(
@@ -87,9 +91,15 @@ var DialButton = (function (_React$Component) {
           { style: {
               'marginRight': '8px'
             } },
-          symbol
+          icon,
+          (!icon || !compact) && _react2['default'].createElement(
+            'span',
+            null,
+            ' ',
+            symbol
+          )
         ),
-        !!alias && _react2['default'].createElement(
+        !!alias && !compact && _react2['default'].createElement(
           'sup',
           { style: {
               'textTransform': 'uppercase',
@@ -117,7 +127,9 @@ var DialPad = (function (_React$Component2) {
   _createClass(DialPad, [{
     key: 'render',
     value: function render() {
-      var onClick = this.props.onClick;
+      var _props2 = this.props;
+      var onClick = _props2.onClick;
+      var compact = _props2.compact;
 
       var buttons = [{
         symbol: '1'
@@ -152,22 +164,14 @@ var DialPad = (function (_React$Component2) {
       }, {
         symbol: '#'
       }, {
-        symbol: _react2['default'].createElement(
-          'span',
-          null,
-          _react2['default'].createElement('i', { className: 'fa fa-phone' }),
-          ' Call'
-        ),
+        icon: _react2['default'].createElement('i', { className: 'fa fa-phone' }),
+        symbol: 'Call',
         action: 'call'
       }, {
         symbol: '+'
       }, {
-        symbol: _react2['default'].createElement(
-          'span',
-          null,
-          _react2['default'].createElement('i', { className: 'fa fa-remove' }),
-          ' Hang Up'
-        ),
+        icon: _react2['default'].createElement('i', { className: 'fa fa-remove' }),
+        symbol: 'Hangup',
         action: 'hangup'
       }];
       return _react2['default'].createElement(
@@ -205,7 +209,7 @@ var DialPad = (function (_React$Component2) {
                     'cursor': 'pointer',
                     'width': 'calc(100%/3)'
                   }, key: i },
-                _react2['default'].createElement(DialButton, button)
+                _react2['default'].createElement(DialButton, _extends({}, button, { compact: compact }))
               );
             })
           )
@@ -232,19 +236,36 @@ var Dial = (function (_React$Component3) {
     _get(Object.getPrototypeOf(Dial.prototype), 'constructor', this).call(this, props);
     this.state = {
       value: '',
-      capture: true
+      capture: true,
+      compact: window.innerWidth < 400
     };
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
 
   _createClass(Dial, [{
+    key: 'handleResize',
+    value: function handleResize(e) {
+      var compact = this.state.compact;
+
+      if (window.innerWidth < 400) {
+        if (!compact) {
+          this.setState({ compact: true });
+        }
+      } else {
+        if (compact) {
+          this.setState({ compact: false });
+        }
+      }
+    }
+  }, {
     key: 'handleClick',
     value: function handleClick(button) {
       var value = this.state.value;
 
-      if ('string' === typeof button.symbol) {
+      if (!button.action) {
         this.setState({
-          value: value + button.symbol
+          value: '' + value + button.symbol
         });
       } else if ('call' === button.action) {
         console.log('Call number ' + value);
@@ -262,8 +283,7 @@ var Dial = (function (_React$Component3) {
       if (!capture) {
         return;
       }
-      switch (e.keyCode) {
-        case 35:
+      switch (e.charCode) {
         case 48:
         case 49:
         case 50:
@@ -287,11 +307,13 @@ var Dial = (function (_React$Component3) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       window.addEventListener('keypress', this.handleKeyPress);
+      window.addEventListener('resize', this.handleResize);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       window.removeEventListener('keypress', this.handleKeyPress);
+      window.removeEventListener('resize', this.handleResize);
     }
   }, {
     key: 'beginCapture',
@@ -328,7 +350,9 @@ var Dial = (function (_React$Component3) {
   }, {
     key: 'render',
     value: function render() {
-      var value = this.state.value;
+      var _state2 = this.state;
+      var value = _state2.value;
+      var compact = _state2.compact;
 
       return _react2['default'].createElement(
         'div',
@@ -358,7 +382,8 @@ var Dial = (function (_React$Component3) {
             'float': 'left',
             'display': 'block',
             'width': '100%',
-            'fontSize': '40px',
+            'fontSize': compact ? '24px' : '40px',
+            'minHeight': '47px',
             'margin': '10px 0',
             'color': '#4d4d4d'
           },
@@ -367,7 +392,7 @@ var Dial = (function (_React$Component3) {
           onBlur: this.beginCapture.bind(this),
           type: 'text',
           value: value }),
-        _react2['default'].createElement(DialPad, { onClick: this.handleClick.bind(this) })
+        _react2['default'].createElement(DialPad, { onClick: this.handleClick.bind(this), compact: compact })
       );
     }
   }]);
