@@ -2,6 +2,11 @@
 
 # FRH React Dial Pad
 
+![travis-ci](https://travis-ci.org/FarmRadioHangar/react-dial-pad.svg?branch=master)
+[![npm version](https://badge.fury.io/js/frh-react-dial-pad.svg)](https://badge.fury.io/js/frh-react-dial-pad)
+[![Dependency Status](https://david-dm.org/FarmRadioHangar/react-dial-pad.svg)](https://david-dm.org/FarmRadioHangar/react-dial-pad#info=dependencies)
+[![devDependency Status](https://david-dm.org/FarmRadioHangar/react-dial-pad/dev-status.svg)](https://david-dm.org/FarmRadioHangar/react-dial-pad#info=devDependencies)
+
 Simple React phone dial pad component inspired by the [jQuery dialpad plugin demo](http://www.jqueryscript.net/demo/Creating-A-Responsive-Phone-Dial-Pad-with-jQuery-CSS3-dialpad/).
 
 ![screenshot](screenshot.gif)
