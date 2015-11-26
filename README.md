@@ -2,4 +2,6 @@
 
 # FRH React Dial Pad
 
+Simple React phone dial pad component.
+
 ![screenshot](screenshot.gif)
