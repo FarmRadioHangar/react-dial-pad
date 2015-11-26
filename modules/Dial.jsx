@@ -173,14 +173,18 @@ export default class Dial extends React.Component {
     this.state = {
       value   : '',
       capture : true,
-      compact : window.innerWidth < 400 
+      compact : false
     }
     this.handleKeyPress = this.handleKeyPress.bind(this)
     this.handleResize = this.handleResize.bind(this)
   }
+  isCompact() {
+    const container = ReactDOM.findDOMNode(this.refs.container)
+    return container ? container.getBoundingClientRect().width < 540 : false
+  }
   handleResize(e) {
     const { compact } = this.state
-    if (window.innerWidth < 400) {
+    if (this.isCompact()) {
       if (!compact) {
         this.setState({compact: true})
       }
@@ -230,6 +234,7 @@ export default class Dial extends React.Component {
   componentDidMount() {
     window.addEventListener('keypress', this.handleKeyPress)
     window.addEventListener('resize', this.handleResize)
+    this.handleResize()
   }
   componentWillUnmount() {
     window.removeEventListener('keypress', this.handleKeyPress)
@@ -261,7 +266,7 @@ export default class Dial extends React.Component {
   render() {
     const { value, compact } = this.state
     return (
-      <div>
+      <div ref='container'>
         {!!value && (
           <a 
             href    = '#' 
@@ -270,11 +275,9 @@ export default class Dial extends React.Component {
               'padding'        : '5px 14px',
               'fontWeight'     : 'bold',
               'float'          : 'right',
-              'position'       : 'absolute',
               'textAlign'      : 'right',
               'marginTop'      : '11px',
               'fontSize'       : '30px',
-              'right'          : '8px',
               'textDecoration' : 'none',
               'color'          : '#4d4d4d'
             }}>&times;</a>
@@ -284,7 +287,7 @@ export default class Dial extends React.Component {
           'border'      : 'none',
           'float'       : 'left', 
           'display'     : 'block', 
-          'width'       : '100%',
+          'width'       : '80%',
           'fontSize'    : compact ? '24px' : '40px',
           'minHeight'   : '47px',
           'margin'      : '10px 0',
