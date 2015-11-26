@@ -192,9 +192,9 @@ export default class Dial extends React.Component {
   }
   handleClick(button) {
     const { value } = this.state
-    if ('string' === typeof button.symbol) {
+    if (!button.action) {
       this.setState({
-        value : value + button.symbol
+        value : `${value}${button.symbol}`
       })
     } else if ('call' === button.action) {
       console.log(`Call number ${value}`)
