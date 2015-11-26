@@ -237,18 +237,24 @@ var Dial = (function (_React$Component3) {
     this.state = {
       value: '',
       capture: true,
-      compact: window.innerWidth < 400
+      compact: false
     };
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleResize = this.handleResize.bind(this);
   }
 
   _createClass(Dial, [{
+    key: 'isCompact',
+    value: function isCompact() {
+      var container = _reactDom2['default'].findDOMNode(this.refs.container);
+      return container ? container.getBoundingClientRect().width < 540 : false;
+    }
+  }, {
     key: 'handleResize',
     value: function handleResize(e) {
       var compact = this.state.compact;
 
-      if (window.innerWidth < 400) {
+      if (this.isCompact()) {
         if (!compact) {
           this.setState({ compact: true });
         }
@@ -308,6 +314,7 @@ var Dial = (function (_React$Component3) {
     value: function componentDidMount() {
       window.addEventListener('keypress', this.handleKeyPress);
       window.addEventListener('resize', this.handleResize);
+      this.handleResize();
     }
   }, {
     key: 'componentWillUnmount',
@@ -356,7 +363,7 @@ var Dial = (function (_React$Component3) {
 
       return _react2['default'].createElement(
         'div',
-        null,
+        { ref: 'container' },
         !!value && _react2['default'].createElement(
           'a',
           {
@@ -366,11 +373,9 @@ var Dial = (function (_React$Component3) {
               'padding': '5px 14px',
               'fontWeight': 'bold',
               'float': 'right',
-              'position': 'absolute',
               'textAlign': 'right',
               'marginTop': '11px',
               'fontSize': '30px',
-              'right': '8px',
               'textDecoration': 'none',
               'color': '#4d4d4d'
             } },
@@ -381,7 +386,7 @@ var Dial = (function (_React$Component3) {
             'border': 'none',
             'float': 'left',
             'display': 'block',
-            'width': '100%',
+            'width': '80%',
             'fontSize': compact ? '24px' : '40px',
             'minHeight': '47px',
             'margin': '10px 0',
