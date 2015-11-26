@@ -123,7 +123,7 @@ export class DialPad extends React.Component {
       },
       {
         icon   : (<i className='fa fa-remove' />),
-        symbol : 'Hang Up',
+        symbol : 'Hangup',
         action : 'hangup'
       }
     ]
